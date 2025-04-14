@@ -1,0 +1,47 @@
+name: CI/CD for CloudSim Simulation
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: ☕ Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+
+    - name: 🧰 Set up Maven
+      uses: stCarolas/setup-maven@v4
+      with:
+        maven-version: '3.8.6'
+
+    - name: 🛠️ Build Project
+      run: mvn clean install && mvn clean package
+
+    - name: 🚀 Run Simulation
+      run: mvn exec:java -pl modules/cloudsim-examples/ -Dexec.mainClass=org.cloudbus.cloudsim.examples.CostAwareCloudAllocation
+
+    - name: 📤 Upload Power Usage Chart
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: power-usage-chart
+        path: power_usage.png
+
+    - name: 📤 Upload Operational Cost Chart
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cost-chart
+        path: operational_cost.png
