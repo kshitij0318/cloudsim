@@ -47,7 +47,7 @@
         private static final Logger logger = LoggerFactory.getLogger(CostAwareCloudAllocation.class);
         private static final int HOSTS = 8; // Increased host count for heterogeneity
         private static final int INITIAL_VMS = 5; // Start with fewer VMs
-        private static final int CLOUDLETS = 10; // More cloudlets with varied arrival times
+        private static final int CLOUDLETS = 8; // More cloudlets with varied arrival times
         private static final double SCHEDULING_INTERVAL = 1.0;
         private static double totalEnergyCost = 0.0;
         private static double totalSlaCost = 0.0;
@@ -60,17 +60,13 @@
             
             // 1. Initialize CloudSim Plus
             CloudSimPlus simulation = new CloudSimPlus();
-            
             // 2. Create Datacenter with heterogeneous hosts
             datacenter = createHeterogeneousDatacenter(simulation);
-            
             // 3. Create Broker
             broker = new DatacenterBrokerSimple(simulation);
-            
             // 4. Create initial VMs
             List<Vm> vmList = createInitialVms();
             broker.submitVmList(vmList);
-            
             // 5. Create dynamic cloudlets (some immediate, some delayed)
             createDynamicWorkloads(broker, vmList);
             
