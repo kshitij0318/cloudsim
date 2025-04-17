@@ -46,7 +46,7 @@
         private static List<Double> costOverTime = new ArrayList<>();
         private static final Logger logger = LoggerFactory.getLogger(CostAwareCloudAllocation.class);
         private static final int HOSTS = 8; // Increased host count for heterogeneity
-        private static final int INITIAL_VMS = 5; // Start with fewer VMs
+        private static final int INITIAL_VMS = 20; // Start with fewer VMs
         private static final int CLOUDLETS = 8; // More cloudlets with varied arrival times
         private static final double SCHEDULING_INTERVAL = 1.0;
         private static double totalEnergyCost = 0.0;
